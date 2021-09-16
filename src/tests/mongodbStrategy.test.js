@@ -7,12 +7,18 @@ const MOCK_HERO_REGISTER = {
     power: 'Strong'
 }
 
+const MOCK_HERO_DEFAULT = {
+    name: `Spiderman-${Date.now()}`,
+    power: 'Super Web'
+}
+
 const context = new Context(new MongoDb)
 
 describe('MongoDB Test Suite', function () {
 
     this.beforeAll(async () => {
         await context.connect()
+        await context.create(MOCK_HERO_DEFAULT)
     })
 
     it('Check connection', async () => {
@@ -26,5 +32,13 @@ describe('MongoDB Test Suite', function () {
     it('register', async () => {
         const { name, power } = await context.create(MOCK_HERO_REGISTER)
         assert.deepStrictEqual({ name, power }, MOCK_HERO_REGISTER)
+    })
+
+    it ('listar', async () => {
+        const [{ name, power }] = await context.read({ name: MOCK_HERO_DEFAULT.name })
+        const result = {
+            name, power
+        }
+        assert.deepStrictEqual(result, MOCK_HERO_DEFAULT)
     })
 } )
