@@ -59,4 +59,9 @@ describe('MongoDB Test Suite', function () {
         assert.deepStrictEqual(result.modifiedCount, 1)
     })
 
+    it('Remove', async () => {
+        const result = await context.delete(MOCK_HERO_UPDATE_ID)
+        assert.deepStrictEqual(result.deletedCount, 1)
+    })
+
 } )
